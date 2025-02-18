@@ -12,18 +12,18 @@ function App() {
   return (
     <ThemeProvider>
       <div className="min-h-screen font-montserrat relative">
+        <Router>
           <Navbar />
           <main className="py-16 md:py-20 bg-background">
-            <Router>
               <Routes>
                 <Route path='/' element={<Hero/>}/>
                 <Route path='/home' element={<Protect><Home/></Protect>}/>
                 <Route path='/todos' element={<Protect><Details/></Protect>}/>
                 <Route path='*' element={<Navigate to= "/"/>}/>
               </Routes>
-            </Router>
           </main>
           <Footer />
+        </Router>
       </div>
     </ThemeProvider>
   )
