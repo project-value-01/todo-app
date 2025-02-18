@@ -10,12 +10,10 @@ import { cn } from "@/lib/utils"
 import { Ellipsis } from "lucide-react";
 import { Button } from "./ui/button";
 
-export const TaskCard = ({image}: {image?: string}) => {
-
-  const defaultStyles = "shadow-2xl rounded-4xl border bg-cover bg-no-repeat";
-
+export const TaskCard = () => {
+  const defaultStyles = `shadow-2xl rounded-4xl border`;
   return (
-    <Card className={cn(defaultStyles, `bg-[url(/p5.jpg)]`)}>
+    <Card className={cn(defaultStyles)} style={{backgroundImage: `url(p${Math.floor(Math.random() * 15) + 1}.jpg)`, backgroundSize: "cover", backgroundRepeat: "no-repeat"}}>
         <CardHeader className="px-3">
             <CardTitle className="text-white text-4xl mt-2">Holidays in Norway</CardTitle>
         </CardHeader>
@@ -27,10 +25,9 @@ export const TaskCard = ({image}: {image?: string}) => {
               <p className="text-base">tasks</p>
             </div>
           </div>
-
         </CardContent>
         <CardFooter className="p-3">
-            <Button variant={"outline"} className="bg-transparent dark:border-white h-14 w-14 text-white rounded-full border-2 cursor-pointer" ><Ellipsis /></Button>
+            <Button variant={"outline"} className="bg-transparent dark:border-white h-14 w-14 text-white rounded-full border-2 cursor-pointer" ><Ellipsis/></Button>
         </CardFooter>
     </Card>
   )
