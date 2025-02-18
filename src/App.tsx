@@ -1,8 +1,10 @@
-
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { Protect } from '@clerk/clerk-react'
 import Footer from "./components/Footer"
 import Hero from "./components/Hero"
 import Navbar from "./components/Navbar"
 import { ThemeProvider } from "./components/theme-provider"
+import { Details, Home } from './pages/index.ts';
 
 
 function App() {
@@ -12,7 +14,14 @@ function App() {
       <div className="min-h-screen font-montserrat relative">
           <Navbar />
           <main className="py-16 md:py-20 bg-background">
-            <Hero />
+            <Router>
+              <Routes>
+                <Route path='/' element={<Hero/>}/>
+                <Route path='/home' element={<Protect><Home/></Protect>}/>
+                <Route path='/todos' element={<Protect><Details/></Protect>}/>
+                <Route path='*' element={<Navigate to= "/"/>}/>
+              </Routes>
+            </Router>
           </main>
           <Footer />
       </div>
