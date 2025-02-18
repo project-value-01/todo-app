@@ -13,7 +13,7 @@ function App() {
     <ThemeProvider>
       <div className="min-h-screen font-montserrat relative">
           <Navbar />
-          <main className="py-16 md:py-20 bg-background">
+          <main className="bg-background">
             <Router>
               <Routes>
                 <Route path='/' element={<Hero/>}/>
