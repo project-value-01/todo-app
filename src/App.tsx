@@ -14,7 +14,7 @@ function App() {
       <div className="min-h-screen font-montserrat relative">
         <Router>
           <Navbar />
-          <main className="py-16 md:py-20 bg-background">
+          <main className="bg-background">
               <Routes>
                 <Route path='/' element={<Hero/>}/>
                 <Route path='/home' element={<Protect><Home/></Protect>}/>

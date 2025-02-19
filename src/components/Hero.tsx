@@ -1,7 +1,7 @@
 import { Button } from "./ui/button"
 import HeroImg from "/heroimg.webp"
 import DailyTasks from "/dailytasks.png"
-import Projects from "/yourprojects.jpeg"
+import Projects from "/yourprojects.png"
 import { SignInButton } from "@clerk/clerk-react"
 import { useNavigate } from "react-router-dom"
 
