@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { Protect } from '@clerk/clerk-react'
 import Footer from "./components/Footer"
 import Hero from "./components/Hero"
-import Navbar from "./components/Navbar"
+import Navbar from "./components/Navbar/Navbar.tsx"
 import { ThemeProvider } from "./components/theme-provider"
 import { Details, Home } from './pages/index.ts';
 

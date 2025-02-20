@@ -12,7 +12,7 @@ import { Button } from "./ui/button";
 
 export const TaskCard = () => {
   const defaultStyles = `shadow-2xl rounded-4xl overflow-hidden`;
-  const backgroundStyles = {backgroundImage: `url(p${Math.floor(Math.random() * 37) + 1}.jpg)`, backgroundSize: "cover", backgroundRepeat: "no-repeat"};
+  const backgroundStyles = {backgroundImage: `url(p${Math.floor(Math.random() * 42) + 1}.jpg)`, backgroundSize: "cover", backgroundRepeat: "no-repeat"};
   return (
     <>      
       <Card className={cn(defaultStyles)} style={backgroundStyles}>
