@@ -4,6 +4,7 @@ import { SignedIn, SignedOut, SignInButton, UserButton, useUser } from "@clerk/c
 import { Button } from "../ui/button"
 import { Link, useNavigate } from "react-router-dom"
 import { useLocation } from "react-router-dom"
+import { Modal } from "../Modal"
 
 const Navbar = () => {
     const {isSignedIn} = useUser()
@@ -11,15 +12,15 @@ const Navbar = () => {
     const navigate = useNavigate()
 
     const handleClick = () => {
-        // if(currentLocation.pathname === "/home"){
-            
-        // }else{
-
-        // }
+        if(!isSignedIn){
+            navigate("/")
+        }else{
+            navigate("/home")
+        }
     }
 
   return (
-    <header className='sticky top-0 left-0 z-50 border-b border-slate-400/30 bg-background'>
+    <header className='sticky top-0 left-0 z-30 border-b border-slate-400/30 bg-background'>
         <div className="container mx-auto px-4 h-16">
             <div className="flex items-center justify-between gap-4 h-full">
                 {/* RIGHT */}
@@ -33,8 +34,20 @@ const Navbar = () => {
                 {/* LEFT */}
                 <div className="flex items-center justify-center space-x-3 sm:space-x-5">
                     {currentLocation.pathname !== "/" 
-                    ? <Button variant={"default"} className="cursor-pointer bg-chart-4 dark:text-white dark:hover:text-black transition duration-200 active:scale-110" onClick={handleClick}>{currentLocation.pathname === "/home" ? "New Task" : "New Todo"}</Button> 
-                    : <Button variant={"default"} className="cursor-pointer bg-chart-2 dark:text-white dark:hover:text-black transition duration-200 active:scale-110" onClick={() => navigate("/home")}>Your Tasks</Button>
+                    
+                    ? currentLocation.pathname === "/home"
+                      
+                        ? <Modal ModalTitle="Create Task" ModalDescription="Create a new task, and click save when you're done">
+                            <Button variant={"default"} className="cursor-pointer bg-chart-4 dark:text-white dark:hover:text-black transition duration-200 active:scale-110">New Task</Button>
+                          </Modal>
+                        : <Modal ModalTitle="Create Todo" ModalDescription="Create a new todo, and click save when you're done">
+                            <Button variant={"default"} className="cursor-pointer bg-chart-4 dark:text-white dark:hover:text-black transition duration-200 active:scale-110">New Todo</Button>
+                          </Modal>
+                        
+                    : <SignInButton mode="modal">
+                        <Button variant={"default"} className="cursor-pointer bg-chart-2 dark:text-white dark:hover:text-black transition duration-200 active:scale-110" onClick={handleClick}>Your Tasks</Button>
+                      </SignInButton>
+                    
                     }
 
                     <ModeToggle />

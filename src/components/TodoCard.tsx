@@ -8,7 +8,9 @@ import {
 import PillIcon from "@/icons/PillIcon";
 import { cn } from "@/lib/utils"
 import { ChevronLeft, Ellipsis, Plus} from "lucide-react";
-import { Button } from "./ui/button";
+import { PopOver } from "./PopOver";
+import { useNavigate } from "react-router-dom";
+import { Modal } from "./Modal";
 
 type TodoCardProps = {
   totalTodos: number,
@@ -16,6 +18,8 @@ type TodoCardProps = {
 }
 
 export const TodoCard = ({totalTodos, completedTodos}: TodoCardProps) => {
+  const navigate = useNavigate()
+
   const fillPercentage = (completedTodos / totalTodos) * 100;
 
   const defaultStyles = `shadow-2xl rounded-4xl relative`;
@@ -28,13 +32,19 @@ export const TodoCard = ({totalTodos, completedTodos}: TodoCardProps) => {
       <Card className={cn(defaultStyles)} style={backgroundStyles}>
               <CardFooter className="p-3">
                 <div className="flex w-full justify-between">
-                    <Button variant={"outline"} className="bg-transparent dark:border-white dark:hover:bg-white dark:hover:text-black h-14 w-14 text-white rounded-full border-[3px] cursor-pointer" ><ChevronLeft /></Button>
-                    <Button variant={"outline"} className="bg-transparent dark:border-white dark:hover:bg-white dark:hover:text-black text-white rounded-full border-[3px] cursor-pointer h-14 w-14" ><Ellipsis/></Button>
+                    
+                    <span className="p-3 sm:p-4 bg-transparent hover:bg-white hover:text-black backdrop-blur-sm border-[3px] border-white text-white rounded-full cursor-pointer active:scale-110 transition-all duration-200"
+                    onClick={() => navigate("/home")}
+                    ><ChevronLeft size={25} /></span>
+
+                    <PopOver side="left">
+                      <span className="p-3 sm:p-4 bg-transparent hover:bg-white hover:text-black backdrop-blur-sm border-[3px] border-white text-white rounded-full cursor-pointer active:scale-110 transition-all duration-200"><Ellipsis size={25}/></span>
+                    </PopOver>
                 </div>
               </CardFooter>
 
               <CardHeader className="px-3">
-                  <CardTitle className="text-white text-5xl mt-2">Holidays in Norway</CardTitle>
+                  <CardTitle className="text-white text-5xl line-clamp-2 h-[100px]">Holidays in Norway baby boy</CardTitle>
               </CardHeader>
               
               <CardContent className="my-6">
@@ -46,7 +56,9 @@ export const TodoCard = ({totalTodos, completedTodos}: TodoCardProps) => {
                   </div>
                 </div>
               </CardContent>
-            <span className="p-5 bg-transparent backdrop-blur-sm border border-white text-white absolute z-0 rounded-full -bottom-6 left-[38%] min-[500px]:left-[43%] cursor-pointer active:scale-110 transition-transform"><Plus size={30} /></span>
+              <Modal ModalTitle="Create Todo" ModalDescription="Create a new todo, and click save when you're done">
+                <span className="p-5 bg-transparent backdrop-blur-sm border border-white text-white absolute z-0 rounded-full -bottom-6 left-[38%] min-[500px]:left-[43%] cursor-pointer active:scale-110 transition-transform"><Plus size={30} /></span>
+              </Modal>
       </Card>
     </>
   )
