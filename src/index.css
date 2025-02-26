@@ -91,6 +91,26 @@
 
   --font-montserrat: "Montserrat", "serif";
   --font-prociono: "Prociono", "serif";
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
 }
 
 @layer base {
@@ -100,4 +120,31 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Add these styles to your global CSS or a CSS module */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.data-[state=open] {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.data-[state=closed] {
+  animation: fadeOut 0.3s ease-in-out;
 }
