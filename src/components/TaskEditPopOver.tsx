@@ -24,8 +24,8 @@ export function TaskEditPopOver({children, align, side}: TaskEditPopOverProps) {
         </PopoverTrigger>
         <PopoverContent align={align} side={side} className="bg-black/50 dark:bg-white/50 backdrop-blur-2xl border-0">
             <div className="flex gap-4 justify-around">
-                <Button className="cursor-pointer bg-amber-500 hover:bg-amber-500 dark:text-white active:scale-90 transition duration-200" onClick={openTaskEditModal}><Edit2 /></Button>
-                <Button variant={"destructive"} className="cursor-pointer dark:bg-rose-500 active:scale-90 transition duration-200"><Trash /></Button>
+                <Button className="cursor-pointer bg-amber-500 hover:bg-amber-500 dark:text-white active:scale-90 transition duration-200" onClick={openTaskEditModal} title="Edit"><Edit2 /></Button>
+                <Button variant={"destructive"} className="cursor-pointer dark:bg-rose-500 active:scale-90 transition duration-200" title="Delete"><Trash /></Button>
              </div>
         </PopoverContent>
     </Popover>

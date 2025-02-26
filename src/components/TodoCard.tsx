@@ -36,10 +36,13 @@ export const TodoCard = ({totalTodos, completedTodos}: TodoCardProps) => {
                     
                     <span className="p-3 sm:p-4 bg-transparent hover:bg-white hover:text-black backdrop-blur-sm border-[3px] border-white text-white rounded-full cursor-pointer active:scale-110 transition-all duration-200"
                     onClick={() => navigate("/home")}
+                    title="Previous Page"
                     ><ChevronLeft size={25} /></span>
 
                     <TaskEditPopOver side="left">
-                      <span className="p-3 sm:p-4 bg-transparent hover:bg-white hover:text-black backdrop-blur-sm border-[3px] border-white text-white rounded-full cursor-pointer active:scale-110 transition-all duration-200"><Ellipsis size={25}/></span>
+                      <span className="p-3 sm:p-4 bg-transparent hover:bg-white hover:text-black backdrop-blur-sm border-[3px] border-white text-white rounded-full cursor-pointer active:scale-110 transition-all duration-200"
+                      title="Options"
+                      ><Ellipsis size={25}/></span>
                     </TaskEditPopOver>
                 </div>
               </CardFooter>
@@ -60,6 +63,7 @@ export const TodoCard = ({totalTodos, completedTodos}: TodoCardProps) => {
 
               <span className="p-5 bg-transparent backdrop-blur-sm border border-white text-white absolute z-0 rounded-full -bottom-6 left-[38%] min-[500px]:left-[43%] cursor-pointer active:scale-110 transition-transform"
               onClick={openTodoModal}
+              title="Create Todo"
               ><Plus size={30} /></span>
  
       </Card>

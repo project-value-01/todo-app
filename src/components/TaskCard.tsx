@@ -37,7 +37,7 @@ export const TaskCard = ({description, background, fillPercentage, totalTodos, c
             
             <div className="cursor-pointer mb-32" onClick={() => navigate("/todos")}>
               <CardHeader className="px-3">
-                  <CardTitle className="text-white text-5xl h-[100px] line-clamp-2" title={description}>{description}</CardTitle>
+                  <CardTitle className="text-white text-5xl h-[98px] line-clamp-2" title={description}>{description}</CardTitle>
               </CardHeader>
               
               <CardContent className="mt-6">
@@ -54,11 +54,12 @@ export const TaskCard = ({description, background, fillPercentage, totalTodos, c
             <CardFooter className="p-3 absolute bottom-0 w-full">
                 <div className="flex w-full justify-between">
                     <TaskEditPopOver side="right">
-                      <span className="p-3 sm:p-4 bg-transparent hover:bg-white hover:text-black backdrop-blur-sm border-[3px] border-white text-white rounded-full cursor-pointer active:scale-110 transition-all duration-200"><Ellipsis size={22}/></span>
+                      <span className="p-3 sm:p-4 bg-transparent hover:bg-white hover:text-black backdrop-blur-sm border-[3px] border-white text-white rounded-full cursor-pointer active:scale-110 transition-all duration-200" title="Options"><Ellipsis size={22}/></span>
                     </TaskEditPopOver>
 
                     <span className="p-3 sm:p-4 bg-transparent hover:bg-white hover:text-black backdrop-blur-sm border-[3px] border-white text-white rounded-full cursor-pointer active:scale-110 transition-all duration-200"
                     onClick={openTodoModal}
+                    title="Create Todo"
                     ><Plus size={22}/></span>
                 </div>
             </CardFooter>

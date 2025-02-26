@@ -17,11 +17,13 @@ type Action = {
   
   openTaskModal: () => void;
   closeTaskModal: () => void;
+  
   openTaskEditModal: () => void;
   closeTaskEditModal: () => void;
 
   openTodoModal: () => void;
   closeTodoModal: () => void;
+  
   openTodoEditModal: () => void;
   closeTodoEditModal: () => void;
 };
@@ -43,11 +45,13 @@ const useModalStore = create<State & Action>((set) => ({
 
   openTaskModal: () => set(() => ({ taskModalState: true })),
   closeTaskModal: () => set(() => ({ taskModalState: false })),
+
   openTaskEditModal: () => set(() => ({ taskEditModalState: true })),
   closeTaskEditModal: () => set(() => ({ taskEditModalState: false })),
   
   openTodoModal: () => set(() => ({ todoModalState: true })),
   closeTodoModal: () => set(() => ({ todoModalState: false })),
+  
   openTodoEditModal: () => set(() => ({ todoEditModalState: true })),
   closeTodoEditModal: () => set(() => ({ todoEditModalState: false })),
 }));
