@@ -4,6 +4,9 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid} from "recharts"
 import { useEffect, useState } from 'react'
 import { ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart'
+import TodoModal from '@/components/TodoModal'
+import TodoEditModal from '@/components/TodoEditModal'
+import TaskEditModal from '@/components/TaskEditModal'
 
 interface todoProps{
   "userId": number,
@@ -23,7 +26,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-function Details() {
+function Detailed() {
     const [todos, setTodos] = useState([{
       "userId": 1,
       "id": 1,
@@ -96,12 +99,13 @@ function Details() {
                 </AccordionItem>
               </Accordion>
             </div>
-
         </div>
-
       </div>
+      <TodoModal />
+      <TaskEditModal />
+      <TodoEditModal />
     </div>
   )
 }
 
-export default Details
+export default Detailed

@@ -1,4 +1,5 @@
-import Details from "./Details";
+import Detailed from "./Detailed";
 import Home from "./Home";
+import Landing from "./Landing";
 
-export {Details, Home}
+export {Detailed, Home, Landing}

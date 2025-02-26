@@ -4,12 +4,13 @@ import { SignedIn, SignedOut, SignInButton, UserButton, useUser } from "@clerk/c
 import { Button } from "../ui/button"
 import { Link, useNavigate } from "react-router-dom"
 import { useLocation } from "react-router-dom"
-import { Modal } from "../Modal"
+import useModalStore from "@/store/states"
 
 const Navbar = () => {
     const {isSignedIn} = useUser()
     const currentLocation = useLocation()
     const navigate = useNavigate()
+    const {openTaskModal, openTodoModal} = useModalStore()
 
     const handleClick = () => {
         if(!isSignedIn){
@@ -37,12 +38,10 @@ const Navbar = () => {
                     
                     ? currentLocation.pathname === "/home"
                       
-                        ? <Modal ModalTitle="Create Task" ModalDescription="Create a new task, and click save when you're done">
-                            <Button variant={"default"} className="cursor-pointer bg-chart-4 dark:text-white dark:hover:text-black transition duration-200 active:scale-110">New Task</Button>
-                          </Modal>
-                        : <Modal ModalTitle="Create Todo" ModalDescription="Create a new todo, and click save when you're done">
-                            <Button variant={"default"} className="cursor-pointer bg-chart-4 dark:text-white dark:hover:text-black transition duration-200 active:scale-110">New Todo</Button>
-                          </Modal>
+                        ? 
+                            <Button className="cursor-pointer bg-chart-4 dark:text-white dark:hover:text-black transition duration-200 active:scale-110" onClick={openTaskModal}>New Task</Button>
+                        : 
+                            <Button variant={"default"} className="cursor-pointer bg-chart-4 dark:text-white dark:hover:text-black transition duration-200 active:scale-110" onClick={openTodoModal}>New Todo</Button>
                         
                     : <SignInButton mode="modal">
                         <Button variant={"default"} className="cursor-pointer bg-chart-2 dark:text-white dark:hover:text-black transition duration-200 active:scale-110" onClick={handleClick}>Your Tasks</Button>

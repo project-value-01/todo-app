@@ -8,45 +8,58 @@ import {
 import PillIcon from "@/icons/PillIcon";
 import { cn } from "@/lib/utils"
 import { Ellipsis, Plus } from "lucide-react";
-import { PopOver } from "./PopOver";
+import { TaskEditPopOver } from "./TaskEditPopOver";
 import { useNavigate } from "react-router-dom";
-import { Modal } from "./Modal";
+import useModalStore from "@/store/states";
 
-export const TaskCard = () => {
+export type TaskCardProps = {
+  id?: string,
+  description: string,
+  background: string, 
+  fillPercentage: number, 
+  totalTodos: number, 
+  completedTodos: number
+}
+
+export const TaskCard = ({description, background, fillPercentage, totalTodos, completedTodos}: TaskCardProps) => {
+  const {openTodoModal} = useModalStore();
   const navigate = useNavigate()
   
-  const defaultStyles = `shadow-2xl rounded-4xl overflow-hidden`;
+  const defaultStyles = `shadow-2xl rounded-4xl overflow-hidden relative`;
   
-  const backgroundStyles = {backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(p${Math.floor(Math.random() * 42) + 1}.jpg)`, backgroundSize: "cover", backgroundRepeat: "no-repeat"};
+  // const backgroundStyles = {backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(p${Math.floor(Math.random() * 42) + 1}.jpg)`, backgroundSize: "cover", backgroundRepeat: "no-repeat"};
+
+    const backgroundStyles = {backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(${background})`, backgroundSize: "cover", backgroundRepeat: "no-repeat"};
   
   return (
     <>      
       <Card className={cn(defaultStyles)} style={backgroundStyles}>
             
-            <div className="cursor-pointer" onClick={() => navigate("/todos")}>
+            <div className="cursor-pointer mb-32" onClick={() => navigate("/todos")}>
               <CardHeader className="px-3">
-                  <CardTitle className="text-white text-5xl mt-2">Holidays in Norway</CardTitle>
+                  <CardTitle className="text-white text-5xl h-[100px] line-clamp-2" title={description}>{description}</CardTitle>
               </CardHeader>
               
-              <CardContent className="my-6">
+              <CardContent className="mt-6">
                 <div className="flex space-x-2">
-                  <PillIcon height="60px" width="25px" className="fill-none" fillPercentage={40} />
+                  <PillIcon height="60px" width="25px" className="fill-none" fillPercentage={fillPercentage} />
                   <div className="flex flex-col text-white">
-                    <h2 className="text-2xl font-semibold">8/10</h2>
+                    <h2 className="text-2xl font-semibold">{completedTodos}/{totalTodos}</h2>
                     <p className="text-base">tasks</p>
                   </div>
                 </div>
               </CardContent>
             </div>
 
-            <CardFooter className="p-3">
+            <CardFooter className="p-3 absolute bottom-0 w-full">
                 <div className="flex w-full justify-between">
-                    <PopOver side="right">
+                    <TaskEditPopOver side="right">
                       <span className="p-3 sm:p-4 bg-transparent hover:bg-white hover:text-black backdrop-blur-sm border-[3px] border-white text-white rounded-full cursor-pointer active:scale-110 transition-all duration-200"><Ellipsis size={22}/></span>
-                    </PopOver>
-                    <Modal ModalTitle="Create Todo" ModalDescription="Create a new todo, and click save when you're done">
-                      <span className="p-3 sm:p-4 bg-transparent hover:bg-white hover:text-black backdrop-blur-sm border-[3px] border-white text-white rounded-full cursor-pointer active:scale-110 transition-all duration-200"><Plus size={22}/></span>
-                    </Modal>
+                    </TaskEditPopOver>
+
+                    <span className="p-3 sm:p-4 bg-transparent hover:bg-white hover:text-black backdrop-blur-sm border-[3px] border-white text-white rounded-full cursor-pointer active:scale-110 transition-all duration-200"
+                    onClick={openTodoModal}
+                    ><Plus size={22}/></span>
                 </div>
             </CardFooter>
       </Card>

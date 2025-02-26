@@ -8,9 +8,9 @@ import {
 import PillIcon from "@/icons/PillIcon";
 import { cn } from "@/lib/utils"
 import { ChevronLeft, Ellipsis, Plus} from "lucide-react";
-import { PopOver } from "./PopOver";
+import { TaskEditPopOver } from "./TaskEditPopOver";
 import { useNavigate } from "react-router-dom";
-import { Modal } from "./Modal";
+import useModalStore from "@/store/states";
 
 type TodoCardProps = {
   totalTodos: number,
@@ -18,6 +18,7 @@ type TodoCardProps = {
 }
 
 export const TodoCard = ({totalTodos, completedTodos}: TodoCardProps) => {
+  const {openTodoModal} = useModalStore();
   const navigate = useNavigate()
 
   const fillPercentage = (completedTodos / totalTodos) * 100;
@@ -37,14 +38,14 @@ export const TodoCard = ({totalTodos, completedTodos}: TodoCardProps) => {
                     onClick={() => navigate("/home")}
                     ><ChevronLeft size={25} /></span>
 
-                    <PopOver side="left">
+                    <TaskEditPopOver side="left">
                       <span className="p-3 sm:p-4 bg-transparent hover:bg-white hover:text-black backdrop-blur-sm border-[3px] border-white text-white rounded-full cursor-pointer active:scale-110 transition-all duration-200"><Ellipsis size={25}/></span>
-                    </PopOver>
+                    </TaskEditPopOver>
                 </div>
               </CardFooter>
 
               <CardHeader className="px-3">
-                  <CardTitle className="text-white text-5xl line-clamp-2 h-[100px]">Holidays in Norway baby boy</CardTitle>
+                  <CardTitle className="text-white text-5xl line-clamp-2 h-[100px]">Zargos mountains are the peak beauty</CardTitle>
               </CardHeader>
               
               <CardContent className="my-6">
@@ -56,9 +57,11 @@ export const TodoCard = ({totalTodos, completedTodos}: TodoCardProps) => {
                   </div>
                 </div>
               </CardContent>
-              <Modal ModalTitle="Create Todo" ModalDescription="Create a new todo, and click save when you're done">
-                <span className="p-5 bg-transparent backdrop-blur-sm border border-white text-white absolute z-0 rounded-full -bottom-6 left-[38%] min-[500px]:left-[43%] cursor-pointer active:scale-110 transition-transform"><Plus size={30} /></span>
-              </Modal>
+
+              <span className="p-5 bg-transparent backdrop-blur-sm border border-white text-white absolute z-0 rounded-full -bottom-6 left-[38%] min-[500px]:left-[43%] cursor-pointer active:scale-110 transition-transform"
+              onClick={openTodoModal}
+              ><Plus size={30} /></span>
+ 
       </Card>
     </>
   )

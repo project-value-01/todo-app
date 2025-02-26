@@ -2,7 +2,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { cn } from '@/lib/utils'
 import { EllipsisVertical } from 'lucide-react'
 import { Button } from './ui/button'
-import { PopOver } from './PopOver'
+import { TodoEditPopOver } from './TodoEditPopOver'
 
 export type TodoProps = {
     id: number,
@@ -11,6 +11,7 @@ export type TodoProps = {
 }
 
 const Todo = ({id, completed, title}: TodoProps) => {
+
   return (
     <div className='border-b border-slate-600/50 dark:border-slate-400 py-4 px-1'>
         <div className="flex items-center space-x-4">
@@ -25,11 +26,11 @@ const Todo = ({id, completed, title}: TodoProps) => {
               {title.charAt(0).toUpperCase() + title.slice(1)}
               </label>
 
-              <PopOver side='left'>
+              <TodoEditPopOver side='left'>
                 <Button variant={"outline"} className='cursor-pointer'>
                   <EllipsisVertical size={20} />
                 </Button>
-              </PopOver>
+              </TodoEditPopOver>
           </div>
 
         </div>

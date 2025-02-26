@@ -11,16 +11,19 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { ReactNode } from "react"
+import { ReactNode} from "react"
 
 type ModalProps = {
   children: ReactNode;
-  ModalTitle: string;
-  ModalDescription: string;
+  modalTitle: string;
+  modalDescription: string;
+  text: string;
+  updateText: (value: string) => void;
   onsubmit?: () => void;
 }
 
-export function Modal({children, ModalTitle, ModalDescription, onsubmit}: ModalProps) {
+export function Modal({children, modalTitle, modalDescription, text, updateText, onsubmit}: ModalProps) {
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -28,13 +31,13 @@ export function Modal({children, ModalTitle, ModalDescription, onsubmit}: ModalP
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>{ModalTitle}</DialogTitle>
-          <DialogDescription>{ModalDescription}</DialogDescription>
+          <DialogTitle>{modalTitle}</DialogTitle>
+          <DialogDescription>{modalDescription}</DialogDescription>
         </DialogHeader>          
           
           <div className="grid w-full max-w-sm items-center gap-2">
             <Label htmlFor="title" className="font-semibold">Title</Label>
-            <Input id="title" type="text" />
+            <Input id="title" type="text" value={text} onChange={(e) => updateText(e.target.value)} />
           </div>
 
         <DialogFooter className="flex justify-between items-center">
