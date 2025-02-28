@@ -2,33 +2,10 @@ import { XIcon } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { createTask } from "@/lib/api";
 import useModalStore from "@/store/states";
-import { useAuth } from "@clerk/clerk-react";
 
 const TaskModal = () => {
-    const {description, updateDescription, taskModalState, closeTaskModal} = useModalStore();
-    const queryClient = useQueryClient();
-    const {userId: clerkId} = useAuth();
-
-    // Mutations
-    const mutation = useMutation({
-      mutationFn: createTask,
-      onSuccess: () => {
-        // Invalidate and refetch
-        queryClient.invalidateQueries({ queryKey: ['tasks'] })
-      },
-    })
-
-    const handleSubmit = () => {
-      mutation.mutate({
-        clerkId,
-        description,
-        // background
-      })
-      updateDescription("")
-    }
+  const {description, updateDescription, taskModalState, closeTaskModal} = useModalStore();
 
   if (!taskModalState) return null; // Don't render the modal if it's closed
 
@@ -64,7 +41,7 @@ const TaskModal = () => {
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form className="space-y-6">
             <div className="grid w-full items-center gap-2">
               <Label htmlFor="title" className="font-semibold capitalize">
                 description

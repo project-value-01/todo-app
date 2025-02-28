@@ -1,26 +1,24 @@
-import Header from '@/components/Header'
-import { TaskCard, TaskCardProps } from '@/components/TaskCard'
-import { Button } from '@/components/ui/button'
-import useModalStore from '@/store/states'
-import { useQuery } from '@tanstack/react-query'
-import api from '@/lib/api'
-import { useAuth } from '@clerk/clerk-react'
-import TaskModal from '@/components/TaskModal'
-import TodoModal from '@/components/TodoModal'
-import TaskEditModal from '@/components/TaskEditModal'
-
+import Header from '@/components/Header';
+import { TaskCard } from '@/components/TaskCard';
+import { Button } from '@/components/ui/button';
+import useModalStore from '@/store/states';
+import TaskModal from '@/components/TaskModal';
+import TodoModal from '@/components/TodoModal';
+import TaskEditModal from '@/components/TaskEditModal';
+import { useQuery } from '@tanstack/react-query';
+import { fetchTasks, Task } from '@/api/tasks';
+import { useAuth } from '@clerk/clerk-react';
 
 function Home() {
-  const {openTaskModal} = useModalStore()
-  const {userId: clerkId} = useAuth();
+  const { openTaskModal } = useModalStore();
+  const { userId: clerkId, getToken } = useAuth();
 
-  // Fetch tasks
-  const { data, isLoading, error } = useQuery({
-      queryKey: ['tasks'],
-      queryFn: async () => {
-        const response = await api.get(`/task/${clerkId}`);
-        return response.data;
-      },
+  const { data: tasks, isLoading, error } = useQuery({
+    queryKey: ['tasks', clerkId],
+    queryFn: async () => {
+      const token = await getToken();
+      return fetchTasks(String(clerkId), String(token))
+    }
   });
 
   return (
@@ -36,9 +34,9 @@ function Home() {
           ) : error ? (
             <p>Error loading tasks</p>
           ) : (
-            data && data.map((task: TaskCardProps) => (
+            tasks && tasks.map((task: Task) => (
               <TaskCard
-                key={task.id}
+                key={task._id}
                 description={task.description}
                 background={task.background}
                 fillPercentage={40}
@@ -47,17 +45,13 @@ function Home() {
               />
             ))
           )}
-          <TaskCard description='Zargos mountain in iran is one of the best' background='/p2.jpg' fillPercentage={40} totalTodos={10} completedTodos={5} />
-          <TaskCard description='fdksjf' background='/p4.jpg' fillPercentage={40} totalTodos={10} completedTodos={5} />
-          <TaskCard description='IFGHML is bae' background='/p1.jpg' fillPercentage={40} totalTodos={10} completedTodos={5} />
-          <TaskCard description='fdksjf' background='/p3.jpg' fillPercentage={40} totalTodos={10} completedTodos={5} />
         </div>
       </div>
       <TaskModal />
       <TodoModal />
       <TaskEditModal />
     </div>
-  )
+  );
 }
 
-export default Home
+export default Home;
