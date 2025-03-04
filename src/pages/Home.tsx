@@ -37,8 +37,9 @@ function Home() {
             tasks && tasks.map((task: Task) => (
               <TaskCard
                 key={task._id}
-                description={task.description}
-                background={task.background}
+                id={task._id}
+                description={task.description || 'No description available'}
+                background={task.background || "https://zenithtodobucket.s3.us-east-1.amazonaws.com/p1.jpg"}
                 fillPercentage={40}
                 totalTodos={10}
                 completedTodos={5}

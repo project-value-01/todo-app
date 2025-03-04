@@ -17,7 +17,7 @@ function App() {
                 <Routes>
                   <Route path='/' element={<Landing/>}/>
                   <Route path='/home' element={<Protect fallback={<Landing />}><Home/></Protect>}/>
-                  <Route path='/todos' element={<Protect fallback={<Landing />}><Detailed/></Protect>}/>
+                  <Route path='/todos/:id' element={<Protect fallback={<Landing />}><Detailed/></Protect>}/>
                   <Route path='*' element={<Navigate to= "/"/>}/>
                 </Routes>
             </main>

@@ -11,11 +11,14 @@ import useModalStore from "@/store/states"
 type TodoEditPopOverProps = {
   children: ReactNode, 
   align?: "center" | "end" | "start", 
-  side?: "bottom" | "left" | "right" | "top"
+  side?: "bottom" | "left" | "right" | "top",
+  taskId?: string
 }
 
-export function TodoEditPopOver({children, align, side}: TodoEditPopOverProps) {
-    const {openTodoEditModal} = useModalStore();
+export function TodoEditPopOver({children, align, side, taskId}: TodoEditPopOverProps) {
+  const {openTodoEditModal} = useModalStore();
+
+  
 
   return (
     <Popover>

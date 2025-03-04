@@ -1,5 +1,11 @@
 import api from "./api";
 
+export interface TodoResponse {
+  taskId: string;
+  title: string;
+  isComplete?: boolean;
+}
+
 // Fetch all todos for a task
 export const fetchTodos = async (taskId: string, token: string) => {
   const response = await api.get(`/todo/${taskId}`,{

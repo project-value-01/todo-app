@@ -3,9 +3,33 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import useModalStore from "@/store/states";
+import { useAuth } from "@clerk/clerk-react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Task, updateTask } from "@/api/tasks";
 
 const TaskEditModal = () => {
-  const { description, updateDescription, taskEditModalState, closeTaskEditModal} = useModalStore();
+  const { description, updateDescription, taskEditModalState, closeTaskEditModal, taskId} = useModalStore();
+  const { getToken } = useAuth();
+
+  const queryClient = useQueryClient();
+  
+  const mutation = useMutation({
+    mutationFn: async (taskData: Task) => {
+      const token = await getToken();
+      return updateTask(taskData, String(token));
+    },
+    onSuccess: () => {
+      console.log("Task updated successfully:");
+      queryClient.invalidateQueries({queryKey: ['tasks']})
+      updateDescription("")
+      closeTaskEditModal()
+    },
+    onError: (error) => {
+      console.error("Error updating task:", error);
+    },
+  })
+
+  
 
   if (!taskEditModalState) return null; // Don't render the modal if it's closed
 
@@ -42,6 +66,15 @@ const TaskEditModal = () => {
             </p>
           </div>
 
+          <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            mutation.mutate({
+              taskId,
+              description,
+            });
+          }}
+          >
           <div className="grid w-full items-center gap-2 my-3">
             <Label htmlFor="description" className="font-semibold capitalize">
               description
@@ -61,6 +94,7 @@ const TaskEditModal = () => {
                 Save
               </Button>
             </div>
+          </form>
         </div>
       </div>
     </div>

@@ -3,9 +3,38 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import useModalStore from "@/store/states";
+import backgroundHandler from "@/utils/backgroundHandler";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useAuth } from "@clerk/clerk-react";
+import { createTask, Task } from "@/api/tasks";
 
 const TaskModal = () => {
-  const {description, updateDescription, taskModalState, closeTaskModal} = useModalStore();
+  const { description, updateDescription, taskModalState, closeTaskModal } = useModalStore();
+  const { getToken, userId: clerkId } = useAuth();
+
+  const queryClient = useQueryClient();
+
+  // Mutations
+  const mutation = useMutation({
+    mutationFn: async (taskData: Task) => {
+      const token = await getToken();
+      return createTask(taskData, String(token));
+    },
+    onSuccess: (data) => {
+      console.log("Task created successfully:", data);
+      queryClient.invalidateQueries({queryKey: ['tasks']})
+      updateDescription("")
+      closeTaskModal()
+    },
+    onError: (error) => {
+      console.error("Error creating task:", error);
+    },
+  });
+
+  const handleOnClose = () => {
+    updateDescription("")
+    closeTaskModal();
+  }
 
   if (!taskModalState) return null; // Don't render the modal if it's closed
 
@@ -15,7 +44,7 @@ const TaskModal = () => {
         data-state={taskModalState ? "open" : "closed"}
         data-slot="dialog-overlay"
         className="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/80"
-        onClick={closeTaskModal} // Added onClick event to close modal
+        onClick={handleOnClose} // Added onClick event to close modal
       >
         <div
           data-slot="dialog-content"
@@ -26,7 +55,7 @@ const TaskModal = () => {
           <button
             data-state={taskModalState ? "open" : "closed"}
             className="ring-offset-background focus:ring-ring data-[state=open]:bg-accent data-[state=open]:text-muted-foreground absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
-            onClick={closeTaskModal}
+            onClick={handleOnClose}
           >
             <XIcon />
             <span className="sr-only">Close</span>
@@ -41,23 +70,32 @@ const TaskModal = () => {
             </p>
           </div>
 
-          <form className="space-y-6">
+          <form
+            className="space-y-6"
+            onSubmit={(e) => {
+              e.preventDefault();
+              mutation.mutate({
+                clerkId: clerkId || '',
+                description,
+                background: backgroundHandler(),
+              });
+            }}
+          >
             <div className="grid w-full items-center gap-2">
               <Label htmlFor="title" className="font-semibold capitalize">
                 description
               </Label>
-              <Input id="title" type="text" className="border-primary" value={description} onChange={e => updateDescription(e.target.value)} />
+              <Input id="title" type="text" className="border-primary" value={description} onChange={(e) => updateDescription(e.target.value)} />
             </div>
 
             <div data-slot="dialog-footer" className="flex gap-2 justify-between items-center">
-              <Button
-                type="button"
-                className="cursor-pointer dark:hover:bg-white/70"
-                onClick={closeTaskModal}
-              >
+              <Button type="button" className="cursor-pointer dark:hover:bg-white/70" onClick={handleOnClose}>
                 Close
               </Button>
-              <Button type="submit" className="cursor-pointer bg-emerald-500 hover:bg-emerald-400 dark:bg-blue-600 dark:text-white dark:hover:bg-blue-400 transition duration-150">
+              <Button
+                type="submit"
+                className="cursor-pointer bg-emerald-500 hover:bg-emerald-400 dark:bg-blue-600 dark:text-white dark:hover:bg-blue-400 transition duration-150"
+              >
                 Save
               </Button>
             </div>
