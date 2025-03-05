@@ -6,11 +6,12 @@ import useModalStore from "@/store/states";
 import { useAuth } from "@clerk/clerk-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Task, updateTask } from "@/api/tasks";
+import { useParams } from "react-router-dom";
 
 const TaskEditModal = () => {
   const { description, updateDescription, taskEditModalState, closeTaskEditModal, taskId} = useModalStore();
-  const { getToken } = useAuth();
-
+  const { getToken } = useAuth(); 
+  const { id } = useParams();
   const queryClient = useQueryClient();
   
   const mutation = useMutation({
@@ -70,7 +71,7 @@ const TaskEditModal = () => {
           onSubmit={(e) => {
             e.preventDefault();
             mutation.mutate({
-              taskId,
+              taskId: id ? String(id) : String(taskId),
               description,
             });
           }}

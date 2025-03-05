@@ -1,9 +1,10 @@
 import api from "./api";
 
 export interface TodoResponse {
-  taskId: string;
+  _id: string;
+  taskId?: string;
   title: string;
-  isComplete?: boolean;
+  isCompleted?: boolean;
 }
 
 // Fetch all todos for a task
@@ -14,7 +15,7 @@ export const fetchTodos = async (taskId: string, token: string) => {
     }
   });
 
-  return response.data;
+  return response.data.todos;
 };
 
 // Create a todo

@@ -11,6 +11,7 @@ type State = {
   taskEditModalState: boolean;
 
   taskId: string;
+  todoId: string;
 };
 
 type Action = {
@@ -30,6 +31,7 @@ type Action = {
   closeTodoEditModal: () => void;
 
   updateTaskId: (taskId: State['taskId']) => void;
+  updateTodoId: (todoId: State['todoId']) => void;
 };
 
 const useModalStore = create<State & Action>((set) => ({
@@ -44,6 +46,7 @@ const useModalStore = create<State & Action>((set) => ({
   taskEditModalState: false,
 
   taskId: '',
+  todoId: '',
 
   // functions
   updateTitle: (title) => set(() => ({ title: title })),
@@ -62,6 +65,7 @@ const useModalStore = create<State & Action>((set) => ({
   closeTodoEditModal: () => set(() => ({ todoEditModalState: false })),
 
   updateTaskId: (taskId) => set(() => ({ taskId: taskId})),
+  updateTodoId: (todoId) => set(() => ({ todoId: todoId})),
 }));
 
 export default useModalStore;

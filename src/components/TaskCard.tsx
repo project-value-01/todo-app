@@ -61,7 +61,10 @@ export const TaskCard = ({id, description, background, fillPercentage, totalTodo
                     </TaskEditPopOver>
 
                     <span className="p-3 sm:p-4 bg-transparent hover:bg-white hover:text-black backdrop-blur-sm border-[3px] border-white text-white rounded-full cursor-pointer active:scale-110 transition-all duration-200"
-                    onClick={openTodoModal}
+                    onClick={() => {
+                      updateTaskId(String(id));
+                      openTodoModal();
+                    }}
                     title="Create Todo"
                     ><Plus size={22}/></span>
                 </div>

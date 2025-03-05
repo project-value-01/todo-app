@@ -11,7 +11,7 @@ import { ChevronLeft, Ellipsis, Plus } from "lucide-react";
 // import { TaskEditPopOver } from "./TaskEditPopOver";
 import { useNavigate, useParams } from "react-router-dom";
 import useModalStore from "@/store/states";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery} from "@tanstack/react-query";
 import { fetchTask } from "@/api/tasks";
 import { useAuth } from "@clerk/clerk-react";
 
@@ -23,11 +23,11 @@ type TodoCardProps = {
 export const TodoCard = ({ totalTodos, completedTodos }: TodoCardProps) => {
   const { getToken } = useAuth();
   const { id } = useParams();
-  const { openTodoModal, taskId } = useModalStore();
+  const { openTodoModal, taskId, updateTaskId } = useModalStore();
   const navigate = useNavigate();
 
   const { data: task, isLoading, error } = useQuery({
-    queryKey: ["task"],
+    queryKey: ["task", taskId || id],
     queryFn: async () => {
       const arg = String(taskId) || String(id);
       const token = await getToken();
@@ -71,12 +71,15 @@ export const TodoCard = ({ totalTodos, completedTodos }: TodoCardProps) => {
             </span>
 
             {/* <TaskEditPopOver side="left"> */}
-              <span
-                className="p-3 sm:p-4 bg-transparent hover:bg-white hover:text-black backdrop-blur-sm border-[3px] border-white text-white rounded-full cursor-pointer active:scale-110 transition-all duration-200"
-                title="Options"
-              >
-                <Ellipsis size={25} />
-              </span>
+            <span
+              className="p-3 sm:p-4 bg-transparent hover:bg-white hover:text-black backdrop-blur-sm border-[3px] border-white text-white rounded-full cursor-pointer active:scale-110 transition-all duration-200"
+              title="Options"
+              onClick={() => {
+                updateTaskId(id ? String(id) : String(taskId));
+              }}
+            >
+              <Ellipsis size={25} />
+            </span>
             {/* </TaskEditPopOver> */}
           </div>
         </CardFooter>
@@ -106,8 +109,11 @@ export const TodoCard = ({ totalTodos, completedTodos }: TodoCardProps) => {
 
         <span
           className="p-5 bg-transparent backdrop-blur-sm border border-white text-white absolute z-0 rounded-full -bottom-6 left-[38%] min-[500px]:left-[43%] cursor-pointer active:scale-110 transition-transform"
-          onClick={openTodoModal}
           title="Create Todo"
+          onClick={() => {
+            updateTaskId(id ? String(id) : String(taskId));
+            openTodoModal();
+          }}
         >
           <Plus size={30} />
         </span>
