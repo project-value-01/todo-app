@@ -23,7 +23,7 @@ function Home() {
 
   return (
     <div className='container mx-auto px-7 bg-background'>
-      <div className='py-8 md:py-20'>
+      <div className='py-8 md:py-20 min-h-screen'>
         <div className='flex justify-between items-center'>
           <Header>Tasks</Header>
           <Button className='cursor-pointer active:scale-125 transition' onClick={openTaskModal}>Create Task</Button>

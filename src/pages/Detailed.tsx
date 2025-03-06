@@ -70,7 +70,7 @@ function Detailed() {
         <div className="grid grid-cols-1 md:grid-cols-2 md:gap-5">
           <div className="mt-10 md:border-r px-3">
             <h3 className="py-4 text-left text-sm font-medium">REMAINING ({incompleteTodos.length})</h3>
-            <div className="max-h-[310px] overflow-scroll">
+            <div className="max-h-[310px] min-h-[100px] md:min-h-[280px] overflow-scroll">
               {isLoading ? (
                 <p>Loading...</p>
               ) : error ? (
@@ -87,7 +87,7 @@ function Detailed() {
             <Accordion type="single" collapsible className="w-full">
               <AccordionItem value="1">
                 <AccordionTrigger>COMPLETED ({completedTodos.length})</AccordionTrigger>
-                <AccordionContent className="max-h-[310px] overflow-scroll">
+                <AccordionContent className="max-h-[310px] min-h-[100px] md:min-h-[280px] overflow-scroll">
                   {isLoading ? (
                     <p>Loading...</p>
                   ) : error ? (

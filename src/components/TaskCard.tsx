@@ -21,7 +21,7 @@ export type TaskCardProps = {
 }
 
 export const TaskCard = ({id, description, background, totalTodos, completedTodos}: TaskCardProps) => {
-  const {openTodoModal, updateTaskId} = useModalStore();
+  const {openTodoModal, updateTaskId, taskId} = useModalStore();
   const navigate = useNavigate()
 
   const fillPercentage = 100;
@@ -63,7 +63,7 @@ export const TaskCard = ({id, description, background, totalTodos, completedTodo
 
                     <span className="p-3 sm:p-4 bg-transparent hover:bg-white hover:text-black backdrop-blur-sm border-[3px] border-white text-white rounded-full cursor-pointer active:scale-110 transition-all duration-200"
                     onClick={() => {
-                      updateTaskId(String(id));
+                      updateTaskId(String(id) || String(taskId));
                       openTodoModal();
                     }}
                     title="Create Todo"
