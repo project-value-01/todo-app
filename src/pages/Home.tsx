@@ -34,17 +34,19 @@ function Home() {
           ) : error ? (
             <p>Error loading tasks</p>
           ) : (
-            tasks && tasks.map((task: Task) => (
-              <TaskCard
+            tasks && tasks.map((task: Task) => {
+                  const completedTodos = task.todos?.filter((todo) => todo.isCompleted === true) || [];
+                  const incompleteTodos = task.todos?.filter((todo) => !todo.isCompleted) || [];
+
+              return <TaskCard
                 key={task._id}
                 id={task._id}
                 description={task.description || 'No description available'}
                 background={task.background || "https://zenithtodobucket.s3.us-east-1.amazonaws.com/p1.jpg"}
-                fillPercentage={40}
-                totalTodos={10}
-                completedTodos={5}
+                totalTodos={completedTodos.length + incompleteTodos.length}
+                completedTodos={completedTodos.length}
               />
-            ))
+            })
           )}
         </div>
       </div>

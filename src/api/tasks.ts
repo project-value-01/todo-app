@@ -1,4 +1,5 @@
 import api from "./api";
+import { TodoResponse } from "./todos";
 
 export type Task = {
   _id?: string;
@@ -6,6 +7,7 @@ export type Task = {
   description?: string;
   background?: string;
   taskId?: string;
+  todos?: Array<TodoResponse>;
 };
 
 // Fetch all tasks for a user

@@ -16,14 +16,15 @@ export type TaskCardProps = {
   id?: string,
   description: string,
   background: string, 
-  fillPercentage: number, 
   totalTodos: number, 
   completedTodos: number
 }
 
-export const TaskCard = ({id, description, background, fillPercentage, totalTodos, completedTodos}: TaskCardProps) => {
+export const TaskCard = ({id, description, background, totalTodos, completedTodos}: TaskCardProps) => {
   const {openTodoModal, updateTaskId} = useModalStore();
   const navigate = useNavigate()
+
+  const fillPercentage = 100;
   
   const defaultStyles = `shadow-2xl rounded-4xl overflow-hidden relative`;
 

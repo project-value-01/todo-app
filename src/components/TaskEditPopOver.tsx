@@ -10,7 +10,7 @@ import useModalStore from "@/store/states";
 import { useAuth } from "@clerk/clerk-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteTask } from "@/api/tasks";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 
 type TaskEditPopOverProps = {
   children: ReactNode;
@@ -21,13 +21,13 @@ type TaskEditPopOverProps = {
 export function TaskEditPopOver({ children, align, side}: TaskEditPopOverProps) {
   const { openTaskEditModal, taskId} = useModalStore();
   const navigate = useNavigate();
-  const { id } = useParams();
   const { getToken } = useAuth();
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
     mutationFn: async (taskId: string) => {
       const token = await getToken();
+      console.log(taskId);
       return deleteTask(taskId, String(token));
     },
     onSuccess: () => {
@@ -50,7 +50,7 @@ export function TaskEditPopOver({ children, align, side}: TaskEditPopOverProps) 
           <Button className="cursor-pointer bg-amber-500 hover:bg-amber-500 dark:text-white active:scale-90 transition duration-200" onClick={openTaskEditModal} title="Edit"><Edit2 /></Button>
           <Button variant={"destructive"} className="cursor-pointer dark:bg-rose-500 active:scale-90 transition duration-200" title="Delete"
           onClick={() => {
-            mutation.mutate(String(id) || String(taskId))
+            mutation.mutate(String(taskId) || taskId);
           }}
           >
             <Trash />
