@@ -3,9 +3,32 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import useModalStore from "@/store/states";
+import { useParams } from "react-router-dom";
+import { useAuth } from "@clerk/clerk-react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { updateTodo } from "@/api/todos";
 
 const TodoEditModal = () => {
-  const {title, updateTitle, todoEditModalState, closeTodoEditModal} = useModalStore();
+  const {title, updateTitle, todoEditModalState, closeTodoEditModal, taskId, todoId} = useModalStore();
+  const { id } = useParams();
+  const {getToken} = useAuth();
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: async (todoData: { taskId: string; title: string, todoId: string }) => {
+      const token = await getToken();
+      return updateTodo(todoData, String(token));
+    },
+    onSuccess: () => {
+      console.log("Todo created successfully:");
+      queryClient.invalidateQueries({ queryKey: ["todos"] });
+      updateTitle('');
+      closeTodoEditModal();
+    },
+    onError: (error) => {
+      console.error("Error creating todo:", error);
+    },
+  });
 
   if (!todoEditModalState) return null; // Don't render the modal if it's closed
 
@@ -42,25 +65,34 @@ const TodoEditModal = () => {
             </p>
           </div>
 
-          <div className="grid w-full items-center gap-2 my-3">
-            <Label htmlFor="title" className="font-semibold capitalize">
-              title
-            </Label>
-            <Input id="title" type="text" className="border-primary" value={title} onChange={e => updateTitle(e.target.value)} />
-          </div>
-
-            <div data-slot="dialog-footer" className="flex gap-2 justify-between items-center">
-              <Button
-                type="button"
-                className="cursor-pointer dark:hover:bg-white/70"
-                onClick={closeTodoEditModal}
-              >
-                Close
-              </Button>
-              <Button type="submit" className="cursor-pointer bg-emerald-500 hover:bg-emerald-400 dark:bg-blue-600 dark:text-white dark:hover:bg-blue-400 transition duration-150">
-                Save
-              </Button>
+          <form onSubmit={(e) => {
+            e.preventDefault();
+            mutation.mutate({
+              taskId: String(id) || String(taskId),
+              title,
+              todoId
+            })
+          }}>
+            <div className="grid w-full items-center gap-2 my-3">
+              <Label htmlFor="title" className="font-semibold capitalize">
+                title
+              </Label>
+              <Input id="title" type="text" className="border-primary" value={title} onChange={e => updateTitle(e.target.value)} />
             </div>
+
+              <div data-slot="dialog-footer" className="flex gap-2 justify-between items-center">
+                <Button
+                  type="button"
+                  className="cursor-pointer dark:hover:bg-white/70"
+                  onClick={closeTodoEditModal}
+                >
+                  Close
+                </Button>
+                <Button type="submit" className="cursor-pointer bg-emerald-500 hover:bg-emerald-400 dark:bg-blue-600 dark:text-white dark:hover:bg-blue-400 transition duration-150">
+                  Save
+                </Button>
+              </div>
+          </form>
         </div>
       </div>
     </div>

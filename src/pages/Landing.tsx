@@ -1,6 +1,3 @@
-import HeroImg from "/heroimg.webp"
-import DailyTasks from "/dailytasks.png"
-import Projects from "/yourprojects.png"
 import { SignInButton, useUser } from "@clerk/clerk-react"
 import { useNavigate } from "react-router-dom"
 import { Button } from "@/components/ui/button"
@@ -27,10 +24,10 @@ const Landing = () => {
 
             <section>
               <div className="flex flex-col gap-5 sm:hidden">
-                <img src={DailyTasks} alt="daily tasks image" className="rounded-2xl" />
-                <img src={Projects} alt="your projects image" className="rounded-2xl" />
+                <img src="https://zenithtodobucket.s3.us-east-1.amazonaws.com/dailytasks.png" alt="daily tasks image" className="rounded-2xl" />
+                <img src="https://zenithtodobucket.s3.us-east-1.amazonaws.com/yourprojects.png" alt="your projects image" className="rounded-2xl" />
               </div>
-              <img src={HeroImg} alt="Hero image" className="rounded-4xl hidden sm:block" />
+              <img src="https://zenithtodobucket.s3.us-east-1.amazonaws.com/heroimg.webp" alt="Hero image" className="rounded-4xl hidden sm:block" />
             </section>
         </div>
     </div>
